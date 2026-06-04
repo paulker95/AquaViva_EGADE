@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>AquaViva — Pitch | Captación de Aguas Pluviales en México</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#061322;
+  --navy2:#0a1f38;
+  --cyan:#22d3ee;
+  --cyan2:#06b6d4;
+  --teal:#2dd4bf;
+  --green:#34d399;
+  --gold:#fbbf24;
+  --ink:#e8f4f8;
+  --muted:#8aa6b8;
+  --glass:rgba(255,255,255,.05);
+  --glass-brd:rgba(255,255,255,.12);
+  --shadow:0 30px 80px -20px rgba(0,0,0,.6);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{
+  font-family:'Inter',system-ui,sans-serif;
+  background:var(--navy);
+  color:var(--ink);
+  overflow:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,.font-display{font-family:'Space Grotesk',sans-serif;letter-spacing:-.02em}
+
+/* ====== DECK STRUCTURE ====== */
+.deck{position:fixed;inset:0}
+.slide{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;justify-content:center;
+  padding:clamp(28px,5vw,90px);
+  opacity:0;visibility:hidden;
+  transform:translateX(40px) scale(.98);
+  transition:opacity .6s ease,transform .6s cubic-bezier(.22,1,.36,1),visibility .6s;
+  overflow:hidden;
+}
+.slide.active{opacity:1;visibility:visible;transform:translateX(0) scale(1);z-index:2}
+.slide.prev{transform:translateX(-40px) scale(.98)}
+.slide-inner{width:100%;max-width:1180px;margin:0 auto;position:relative;z-index:3}
+
+/* animated entrance for children */
+.slide.active .reveal{animation:rise .7s cubic-bezier(.22,1,.36,1) both}
+.slide.active .reveal:nth-child(1){animation-delay:.05s}
+.slide.active .reveal:nth-child(2){animation-delay:.13s}
+.slide.active .reveal:nth-child(3){animation-delay:.21s}
+.slide.active .reveal:nth-child(4){animation-delay:.29s}
+.slide.active .reveal:nth-child(5){animation-delay:.37s}
+.slide.active .reveal:nth-child(6){animation-delay:.45s}
+@keyframes rise{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:translateY(0)}}
+
+/* ====== BACKGROUNDS ====== */
+.bg-grad-a{background:radial-gradient(120% 120% at 80% -10%,#0e3a4f 0%,#061322 55%)}
+.bg-grad-b{background:radial-gradient(120% 120% at 10% 110%,#0b3a33 0%,#061322 55%)}
+.bg-grad-c{background:radial-gradient(130% 130% at 100% 0%,#15324f 0%,#061322 60%)}
+.bg-gold{background:radial-gradient(120% 120% at 50% -20%,#3a2e0c 0%,#061322 60%)}
+.glow{position:absolute;border-radius:50%;filter:blur(90px);opacity:.4;pointer-events:none;z-index:1}
+.glow.cy{background:var(--cyan2);width:420px;height:420px;top:-120px;right:-80px}
+.glow.gr{background:var(--green);width:360px;height:360px;bottom:-140px;left:-100px;opacity:.25}
+
+/* grid overlay */
+.grid-bg{position:absolute;inset:0;z-index:0;opacity:.35;
+  background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);
+  background-size:54px 54px;
+  mask-image:radial-gradient(120% 90% at 50% 30%,#000 30%,transparent 80%);
+}
+
+/* ====== TYPO HELPERS ====== */
+.eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:.78rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--cyan);
+  padding:7px 15px;border:1px solid var(--glass-brd);border-radius:100px;background:var(--glass);backdrop-filter:blur(8px)}
+.eyebrow .dot{width:7px;height:7px;border-radius:50%;background:var(--cyan);box-shadow:0 0 12px var(--cyan)}
+.kicker{font-size:.8rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--teal);margin-bottom:14px}
+.slide h2.title{font-size:clamp(1.9rem,4.4vw,3.4rem);font-weight:700;line-height:1.04;margin-bottom:10px}
+.lead{font-size:clamp(1rem,1.5vw,1.22rem);color:var(--muted);line-height:1.6;max-width:62ch}
+.grad-text{background:linear-gradient(100deg,var(--cyan),var(--teal) 60%,var(--green));-webkit-background-clip:text;background-clip:text;color:transparent}
+.gold-text{background:linear-gradient(100deg,#fde68a,var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent}
+
+/* ====== CARDS / GRIDS ====== */
+.grid{display:grid;gap:18px}
+.g2{grid-template-columns:repeat(2,1fr)}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g4{grid-template-columns:repeat(4,1fr)}
+.card{background:var(--glass);border:1px solid var(--glass-brd);border-radius:20px;padding:24px;backdrop-filter:blur(10px);position:relative;overflow:hidden;transition:transform .35s ease,border-color .35s}
+.card:hover{transform:translateY(-5px);border-color:rgba(34,211,238,.45)}
+.card .ic{font-size:1.7rem;margin-bottom:12px;display:block}
+.card h3{font-size:1.05rem;font-weight:600;margin-bottom:7px}
+.card p{font-size:.9rem;color:var(--muted);line-height:1.5}
+.card .num{position:absolute;top:14px;right:18px;font-family:'Space Grotesk';font-size:2.4rem;font-weight:700;color:rgba(255,255,255,.07)}
+
+/* stat */
+.stat .big{font-family:'Space Grotesk';font-weight:700;font-size:clamp(2rem,4vw,3rem);line-height:1}
+.stat .lbl{font-size:.85rem;color:var(--muted);margin-top:8px;line-height:1.4}
+
+/* ====== TABLE ====== */
+.tbl{width:100%;border-collapse:collapse;font-size:.92rem;border-radius:16px;overflow:hidden;background:var(--glass);border:1px solid var(--glass-brd)}
+.tbl th{background:rgba(34,211,238,.1);color:var(--cyan);text-align:left;padding:13px 18px;font-weight:600;font-size:.78rem;letter-spacing:.06em;text-transform:uppercase}
+.tbl td{padding:12px 18px;border-top:1px solid rgba(255,255,255,.07);color:var(--ink)}
+.tbl td.muted{color:var(--muted)}
+.tbl tr:hover td{background:rgba(255,255,255,.03)}
+.tag-price{font-family:'Space Grotesk';font-weight:600;color:var(--green)}
+
+/* process steps */
+.flow{display:flex;gap:14px;align-items:stretch;flex-wrap:wrap}
+.step{flex:1;min-width:150px;background:var(--glass);border:1px solid var(--glass-brd);border-radius:18px;padding:20px 18px;position:relative}
+.step .n{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,var(--cyan2),var(--teal));display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk';font-weight:700;color:#04222b;margin-bottom:12px}
+.step h4{font-size:.98rem;margin-bottom:5px}
+.step p{font-size:.82rem;color:var(--muted);line-height:1.45}
+
+/* bar chart */
+.bars{display:flex;align-items:flex-end;gap:26px;height:230px;padding:0 10px}
+.bar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;gap:10px;height:100%;justify-content:flex-end}
+.bar{width:100%;max-width:90px;border-radius:12px 12px 0 0;background:linear-gradient(180deg,var(--cyan),var(--cyan2));position:relative;transition:height 1s cubic-bezier(.22,1,.36,1)}
+.slide.active .bar{}
+.bar .v{position:absolute;top:-26px;left:50%;transform:translateX(-50%);font-family:'Space Grotesk';font-weight:700;font-size:.95rem;white-space:nowrap}
+.bar-wrap .yr{font-size:.85rem;color:var(--muted)}
+.bar.gold{background:linear-gradient(180deg,var(--gold),#d99a06)}
+
+/* list checks */
+.checks{list-style:none;display:grid;gap:13px}
+.checks li{display:flex;gap:13px;align-items:flex-start;font-size:.98rem;line-height:1.45}
+.checks li .ck{flex:none;width:24px;height:24px;border-radius:8px;background:rgba(52,211,153,.15);color:var(--green);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem;margin-top:1px}
+.checks li b{color:var(--ink)}
+.checks li span{color:var(--muted)}
+
+/* the ask panel */
+.ask-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:26px;align-items:center}
+.ask-box{background:linear-gradient(160deg,rgba(251,191,36,.14),rgba(251,191,36,.03));border:1px solid rgba(251,191,36,.35);border-radius:24px;padding:34px}
+.ask-amount{font-family:'Space Grotesk';font-weight:700;font-size:clamp(2.6rem,6vw,4.6rem);line-height:1}
+.equity{display:inline-block;margin-top:10px;padding:6px 16px;border-radius:100px;background:rgba(251,191,36,.16);border:1px solid rgba(251,191,36,.4);color:var(--gold);font-weight:600;font-size:.92rem}
+
+/* divider chips */
+.chips{display:flex;flex-wrap:wrap;gap:10px}
+.chip{padding:8px 15px;border-radius:100px;background:var(--glass);border:1px solid var(--glass-brd);font-size:.85rem;color:var(--ink)}
+.chip b{color:var(--cyan)}
+
+/* ====== TITLE SLIDE ====== */
+.logo-mark{display:flex;align-items:center;gap:14px;margin-bottom:30px}
+.logo-mark .drop{width:46px;height:46px;position:relative;filter:drop-shadow(0 6px 16px rgba(34,211,238,.5))}
+.brand-name{font-family:'Space Grotesk';font-weight:700;font-size:1.5rem;letter-spacing:.02em}
+.title-hero h1{font-size:clamp(2.6rem,7vw,5.4rem);font-weight:700;line-height:1.0;margin-bottom:22px}
+.title-hero .sub{font-size:clamp(1.05rem,2vw,1.4rem);color:var(--muted);max-width:54ch;line-height:1.55}
+.meta-row{display:flex;gap:28px;flex-wrap:wrap;margin-top:42px}
+.meta-row .m .k{font-family:'Space Grotesk';font-weight:700;font-size:1.3rem;color:var(--cyan)}
+.meta-row .m .d{font-size:.8rem;color:var(--muted);text-transform:uppercase;letter-spacing:.12em;margin-top:3px}
+
+/* rain */
+.rain{position:absolute;inset:0;z-index:1;overflow:hidden;pointer-events:none}
+.rain i{position:absolute;top:-12%;width:1.5px;height:80px;background:linear-gradient(transparent,rgba(34,211,238,.55));animation:fall linear infinite}
+@keyframes fall{to{transform:translateY(115vh)}}
+
+/* ====== NAV ====== */
+.nav{position:fixed;left:0;right:0;bottom:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:14px 26px;background:linear-gradient(transparent,rgba(4,12,22,.85));}
+.dots{display:flex;gap:8px;flex-wrap:wrap;max-width:62vw}
+.dots .d{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.2);cursor:pointer;transition:all .3s}
+.dots .d.on{background:var(--cyan);width:26px;border-radius:5px;box-shadow:0 0 12px var(--cyan)}
+.nav-right{display:flex;align-items:center;gap:14px}
+.counter{font-family:'Space Grotesk';font-weight:600;font-size:.9rem;color:var(--muted)}
+.counter b{color:var(--ink)}
+.btn{width:42px;height:42px;border-radius:12px;border:1px solid var(--glass-brd);background:var(--glass);color:var(--ink);cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;transition:.25s;backdrop-filter:blur(8px)}
+.btn:hover{background:var(--cyan);color:#04222b;border-color:var(--cyan)}
+.progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--cyan),var(--green));z-index:60;transition:width .5s ease;box-shadow:0 0 12px var(--cyan)}
+
+/* section label top-right */
+.s-index{position:absolute;top:clamp(20px,4vw,46px);right:clamp(20px,5vw,90px);font-family:'Space Grotesk';font-weight:700;font-size:.85rem;color:rgba(255,255,255,.22);z-index:4}
+
+.hint{position:fixed;bottom:70px;left:50%;transform:translateX(-50%);font-size:.75rem;color:var(--muted);z-index:40;opacity:.75;transition:opacity .5s}
+.hint kbd{background:var(--glass);border:1px solid var(--glass-brd);border-radius:6px;padding:1px 7px;font-family:inherit}
+
+/* ===== TABLET ===== */
+@media(max-width:980px){
+  .g4{grid-template-columns:repeat(2,1fr)}
+  .ask-grid{grid-template-columns:1fr;gap:20px}
+  .meta-row{gap:18px}
+}
+
+/* ===== MOBILE ===== */
+@media(max-width:680px){
+  /* let each slide scroll vertically instead of cropping */
+  .slide{
+    justify-content:flex-start;
+    padding:64px 18px 96px;
+    overflow-y:auto;
+    overflow-x:hidden;
+    -webkit-overflow-scrolling:touch;
+  }
+  .slide::-webkit-scrollbar{width:0}
+  .slide-inner{margin:auto 0}
+
+  .g2,.g3,.g4{grid-template-columns:1fr;gap:13px}
+  .grid{gap:13px}
+  .card{padding:18px;border-radius:16px}
+  .card .num{font-size:1.8rem;top:10px;right:14px}
+  .card .ic{font-size:1.4rem;margin-bottom:8px}
+  .card h3{font-size:1rem}
+  .card p{font-size:.86rem}
+
+  /* two-column layouts that used inline gap */
+  .slide-inner .grid.g2[style]{gap:24px !important}
+
+  .lead{font-size:.95rem}
+  .slide h2.title{font-size:clamp(1.5rem,7vw,2.1rem)}
+  .kicker{font-size:.72rem;margin-bottom:10px}
+  .s-index{position:static;display:block;margin-bottom:10px;font-size:.78rem}
+
+  /* title slide */
+  .title-hero h1{font-size:clamp(2rem,9vw,2.8rem);margin-bottom:16px}
+  .title-hero .sub{font-size:1rem}
+  .meta-row{gap:14px 26px;margin-top:28px}
+  .meta-row .m .k{font-size:1.1rem}
+  .logo-mark{margin-bottom:20px}
+
+  /* process flow stacks */
+  .flow{flex-direction:column;gap:10px}
+  .step{min-width:0;display:flex;align-items:flex-start;gap:14px;padding:14px 16px}
+  .step .n{margin-bottom:0;flex:none}
+
+  /* stats */
+  .stat .big{font-size:clamp(1.8rem,9vw,2.4rem)}
+  .stat .lbl{font-size:.82rem}
+
+  /* table */
+  .tbl{font-size:.82rem}
+  .tbl th,.tbl td{padding:9px 12px}
+
+  /* chart */
+  .bars{gap:18px;height:180px;padding:0}
+  .bar{max-width:64px}
+  .bar .v{font-size:.8rem;top:-22px}
+
+  /* ask */
+  .ask-box{padding:24px}
+  .ask-amount{font-size:clamp(2.2rem,12vw,3rem)}
+  .checks li{font-size:.92rem}
+
+  /* nav */
+  .nav{padding:10px 14px}
+  .dots{max-width:52vw;gap:6px}
+  .dots .d{width:7px;height:7px}
+  .dots .d.on{width:18px}
+  .btn{width:46px;height:46px;font-size:1.2rem}
+  .counter{font-size:.82rem}
+  .hint{display:none}
+}
+
+/* very small / landscape phones */
+@media(max-width:680px) and (max-height:430px){
+  .slide{padding:54px 16px 84px}
+  .meta-row{margin-top:18px}
+}
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+<div class="deck" id="deck">
+
+<!-- 1 · PORTADA -->
+<section class="slide bg-grad-a active">
+  <div class="grid-bg"></div>
+  <div class="rain" id="rain"></div>
+  <div class="glow cy"></div>
+  <div class="slide-inner title-hero">
+    <div class="logo-mark reveal">
+      <svg class="drop" viewBox="0 0 48 48" fill="none"><path d="M24 3C24 3 8 21 8 32a16 16 0 0 0 32 0C40 21 24 3 24 3Z" fill="url(#g1)"/><path d="M30 30a6 6 0 0 1-6 6" stroke="#04222b" stroke-width="2.5" stroke-linecap="round" opacity=".5"/><defs><linearGradient id="g1" x1="8" y1="3" x2="40" y2="48"><stop stop-color="#22d3ee"/><stop offset="1" stop-color="#2dd4bf"/></linearGradient></defs></svg>
+      <span class="brand-name">Aqua<span class="grad-text">Viva</span></span>
+    </div>
+    <div class="reveal"><span class="eyebrow"><span class="dot"></span>Pitch de Inversión · MBA EGADE</span></div>
+    <h1 class="reveal" style="margin-top:24px">Cada gota de lluvia es <span class="grad-text">dinero que se va al drenaje.</span></h1>
+    <p class="sub reveal">Sistemas inteligentes de captación de agua pluvial para hogares y empresas en México. Convertimos un problema macroeconómico de billones de litros en un negocio rentable, sustentable y escalable.</p>
+    <div class="meta-row reveal">
+      <div class="m"><div class="k">$20.2M USD</div><div class="d">Mercado 2025</div></div>
+      <div class="m"><div class="k">2.4%</div><div class="d">De la lluvia se aprovecha</div></div>
+      <div class="m"><div class="k">~3 años</div><div class="d">Retorno para el cliente</div></div>
+      <div class="m"><div class="k">15%</div><div class="d">Empresas ya lo tienen</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 2 · EL PROBLEMA -->
+<section class="slide bg-grad-c">
+  <div class="grid-bg"></div><div class="glow cy"></div>
+  <div class="s-index">01 — El Problema</div>
+  <div class="slide-inner">
+    <div class="kicker reveal">La tormenta perfecta</div>
+    <h2 class="title reveal">México vive una <span class="grad-text">crisis hídrica</span> sentado sobre un océano de lluvia.</h2>
+    <p class="lead reveal" style="margin:14px 0 30px">El país tiene agua. Lo que no tiene es cómo captarla. Esa contradicción es exactamente donde nace la oportunidad.</p>
+    <div class="grid g4">
+      <div class="card stat reveal"><div class="big grad-text">50%</div><div class="lbl">de la población sin acceso confiable a agua potable</div></div>
+      <div class="card stat reveal"><div class="big grad-text">2.4%</div><div class="lbl">único porcentaje de los 1.5 billones de m³ de lluvia que se aprovecha al año</div></div>
+      <div class="card stat reveal"><div class="big grad-text">2030</div><div class="lbl">año en que CDMX proyecta déficits hídricos severos</div></div>
+      <div class="card stat reveal"><div class="big grad-text">50%</div><div class="lbl">del agua se pierde en fugas de la red de distribución</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 3 · LA SOLUCIÓN -->
+<section class="slide bg-grad-b">
+  <div class="grid-bg"></div><div class="glow gr"></div>
+  <div class="s-index">02 — La Solución</div>
+  <div class="slide-inner">
+    <div class="kicker reveal">Qué hacemos</div>
+    <h2 class="title reveal">Captamos, filtramos y almacenamos <span class="grad-text">agua de lluvia</span> — lista para usar.</h2>
+    <p class="lead reveal" style="margin:14px 0 30px">Un techo de 100 m² en CDMX puede captar <b style="color:var(--cyan)">~64,000 litros al año</b>. Nosotros convertimos cualquier techo en una fuente de agua independiente.</p>
+    <div class="flow">
+      <div class="step reveal"><div class="n">1</div><h4>Captación</h4><p>El techo recolecta el agua: capta 80–90% de lo que cae.</p></div>
+      <div class="step reveal"><div class="n">2</div><h4>Conducción</h4><p>Canaletas y bajantes dirigen el flujo al sistema.</p></div>
+      <div class="step reveal"><div class="n">3</div><h4>Filtrado</h4><p>Separador de primeras lluvias + tren de filtración elimina residuos.</p></div>
+      <div class="step reveal"><div class="n">4</div><h4>Almacenamiento</h4><p>Cisternas y tinacos herméticos protegidos del sol.</p></div>
+      <div class="step reveal"><div class="n">5</div><h4>Distribución</h4><p>Riego, limpieza, WC, lavado — y con purificación, consumo humano.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 4 · POR QUÉ FUNCIONA (ventajas) -->
+<section class="slide bg-grad-a">
+  <div class="grid-bg"></div><div class="glow cy"></div>
+  <div class="s-index">03 — Propuesta de Valor</div>
+  <div class="slide-inner">
+    <div class="kicker reveal">Por qué el cliente lo compra</div>
+    <h2 class="title reveal">Cuatro razones que <span class="grad-text">venden solas.</span></h2>
+    <div class="grid g4" style="margin-top:30px">
+      <div class="card reveal"><span class="num">01</span><span class="ic">💧</span><h3>Ahorro real</h3><p>Reduce el consumo de agua potable hasta <b style="color:var(--cyan)">50% en casas</b> y <b style="color:var(--cyan)">75% en edificios comerciales</b>.</p></div>
+      <div class="card reveal"><span class="num">02</span><span class="ic">⚙️</span><h3>Casi gratis</h3><p>Tras la inversión inicial, el agua de lluvia es prácticamente gratuita: solo mantenimiento de filtros.</p></div>
+      <div class="card reveal"><span class="num">03</span><span class="ic">🌧️</span><h3>Anti-inundación</h3><p>Retiene escurrimientos que de otra forma saturarían el drenaje urbano.</p></div>
+      <div class="card reveal"><span class="num">04</span><span class="ic">🔋</span><h3>Independencia</h3><p>Agua útil en zonas sin suministro o con servicio irregular. Adiós a las pipas.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 5 · MERCADO -->
+<section class="slide bg-grad-c">
+  <div class="grid-bg"></div><div class="glow gr"></div>
+  <div class="s-index">04 — Mercado</div>
+  <div class="slide-inner">
+    <div class="grid g2" style="align-items:center;gap:48px">
+      <div>
+        <div class="kicker reveal">Tamaño y crecimiento</div>
+        <h2 class="title reveal">Un mercado que crece <span class="grad-text">con o sin nosotros.</span></h2>
+        <p class="lead reveal" style="margin:14px 0 22px">El mercado mexicano de captación pluvial pasa de <b style="color:var(--cyan)">USD 20.2M (2025)</b> a <b style="color:var(--cyan)">USD 30.7M (2034)</b>, con un CAGR de 4.51%. A nivel global se proyecta a <b style="color:var(--green)">USD 17.5 mil millones</b> en 2032 (CAGR 9.6%).</p>
+        <ul class="checks reveal">
+          <li><span class="ck">✓</span><span>Solo <b>15% de las empresas</b> medianas y grandes lo han implementado (INEGI) — el 85% es mercado abierto.</span></li>
+          <li><span class="ck">✓</span><span>Tendencia <b>ESG</b>: las grandes corporaciones buscan proveedores sustentables.</span></li>
+          <li><span class="ck">✓</span><span><b>Financiamiento verde</b> disponible: bancos abriendo líneas de crédito sustentable.</span></li>
+        </ul>
+      </div>
+      <div class="card reveal" style="padding:34px 30px">
+        <div style="font-size:.8rem;color:var(--muted);text-transform:uppercase;letter-spacing:.12em;margin-bottom:24px">Mercado México · USD millones</div>
+        <div class="bars" id="bars">
+          <div class="bar-wrap"><div class="bar" style="height:0" data-h="66%"><span class="v grad-text">$20.2M</span></div><div class="yr">2025</div></div>
+          <div class="bar-wrap"><div class="bar" style="height:0" data-h="82%"><span class="v grad-text">$25M</span></div><div class="yr">2030</div></div>
+          <div class="bar-wrap"><div class="bar gold" style="height:0" data-h="100%"><span class="v gold-text">$30.7M</span></div><div class="yr">2034</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 6 · POR QUÉ MÉXICO / TAILWINDS -->
+<section class="slide bg-grad-b">
+  <div class="grid-bg"></div><div class="glow cy"></div>
+  <div class="s-index">05 — Viento a Favor</div>
+  <div class="slide-inner">
+    <div class="kicker reveal">El timing es ahora</div>
+    <h2 class="title reveal">La ley ya está <span class="grad-text">empujando la demanda.</span></h2>
+    <div class="grid g3" style="margin-top:28px">
+      <div class="card reveal"><span class="ic">⚖️</span><h3>Regulación favorable</h3><p>En 2024 el Congreso de CDMX hizo constitucional el programa de captación pluvial. La Ley General de Aguas (Art. 32) lo regula a nivel federal.</p></div>
+      <div class="card reveal"><span class="ic">🏗️</span><h3>Mandato obligatorio</h3><p>Se exige instalar sistemas de captación en <b style="color:var(--cyan)">nuevas construcciones</b> en CDMX = demanda asegurada.</p></div>
+      <div class="card reveal"><span class="ic">🏛️</span><h3>Programas públicos</h3><p>PROCAPTAR (CONAGUA) subsidia hasta el 100% en zonas rurales; CDMX ya instaló en +8,000 viviendas.</p></div>
+      <div class="card reveal"><span class="ic">💼</span><h3>Ahorro empresarial</h3><p>Las empresas ahorran entre <b style="color:var(--green)">$500K y $2M MXN</b> al año en costos de agua.</p></div>
+      <div class="card reveal"><span class="ic">🏭</span><h3>Nearshoring</h3><p>El norte industrial enfrenta un cuello de botella hídrico que amenaza manufactura y semiconductores (WEF).</p></div>
+      <div class="card reveal"><span class="ic">📡</span><h3>Diferenciador IoT</h3><p>Sensores y monitoreo remoto como servicio premium frente a competidores tradicionales.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 7 · COMPETENCIA -->
+<section class="slide bg-grad-c">
+  <div class="grid-bg"></div><div class="glow gr"></div>
+  <div class="s-index">06 — Competencia</div>
+  <div class="slide-inner">
+    <div class="kicker reveal">El panorama</div>
+    <h2 class="title reveal">Mercado activo, pero <span class="grad-text">fragmentado.</span></h2>
+    <p class="lead reveal" style="margin:14px 0 24px">Hay jugadores fuertes — pero ninguno domina con tecnología inteligente + modelo de servicio recurrente. Ahí entramos.</p>
+    <div class="grid g2" style="gap:26px;align-items:start">
+      <div class="reveal">
+        <table class="tbl">
+          <thead><tr><th>Empresa</th><th>Enfoque</th></tr></thead>
+          <tbody>
+            <tr><td><b>Isla Urbana</b></td><td class="muted">ONG líder, comunidades vulnerables</td></tr>
+            <tr><td><b>Innovación Pluvial</b></td><td class="muted">+20,000 sistemas · 871M L/año</td></tr>
+            <tr><td><b>Rotoplas</b></td><td class="muted">Sistemas modulares empresariales</td></tr>
+            <tr><td><b>TAO Solutions</b></td><td class="muted">Certificación AENOR · NOM-127</td></tr>
+            <tr><td><b>CAPPA</b></td><td class="muted">Hidráulica avanzada · IoT · SUDS</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="reveal">
+        <div class="card" style="border-color:rgba(52,211,153,.4)">
+          <span class="ic">🚀</span>
+          <h3 style="font-size:1.25rem">Nuestra ventaja AquaViva</h3>
+          <ul class="checks" style="margin-top:16px">
+            <li><span class="ck">✓</span><span><b>Llave en mano + IoT:</b> instalación, monitoreo remoto y app de consumo en un solo proveedor.</span></li>
+            <li><span class="ck">✓</span><span><b>Ingreso recurrente:</b> contratos de mantenimiento y desinfección cada 3–6 meses.</span></li>
+            <li><span class="ck">✓</span><span><b>B2B + licitaciones:</b> alianzas con desarrolladoras obligadas por ley y gobierno.</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 8 · MODELO DE NEGOCIO -->
+<section class="slide bg-grad-a">
+  <div class="grid-bg"></div><div class="glow cy"></div>
+  <div class="s-index">07 — Modelo de Negocio</div>
+  <div class="slide-inner">
+    <div class="kicker reveal">Seis fuentes de ingreso</div>
+    <h2 class="title reveal">No vendemos un producto. Construimos un <span class="grad-text">ecosistema.</span></h2>
+    <div class="grid g3" style="margin-top:28px">
+      <div class="card reveal"><span class="num">01</span><span class="ic">🏠</span><h3>Residencial</h3><p>Casas, departamentos y condominios.</p></div>
+      <div class="card reveal"><span class="num">02</span><span class="ic">🏢</span><h3>Comercial / Industrial</h3><p>Naves, oficinas y hoteles — mayor ticket promedio.</p></div>
+      <div class="card reveal"><span class="num">03</span><span class="ic">🔧</span><h3>Mantenimiento</h3><p>Contratos recurrentes de limpieza y desinfección.</p></div>
+      <div class="card reveal"><span class="num">04</span><span class="ic">📐</span><h3>Consultoría</h3><p>Asesoría técnica para constructoras y desarrolladoras.</p></div>
+      <div class="card reveal"><span class="num">05</span><span class="ic">📦</span><h3>Kits "plug & play"</h3><p>Sistemas prefabricados para autoinstalación.</p></div>
+      <div class="card reveal"><span class="num">06</span><span class="ic">🤝</span><h3>Gobierno</h3><p>Licitaciones PROCAPTAR y Cosecha de Lluvia CDMX.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 9 · COSTO / PRECIOS -->
+<section class="slide bg-grad-b">
+  <div class="grid-bg"></div><div class="glow gr"></div>
+  <div class="s-index">08 — Pricing</div>
+  <div class="slide-inner">
+    <div class="kicker reveal">Cuánto cuesta al cliente</div>
+    <h2 class="title reveal">Tres niveles, <span class="grad-text">todos los bolsillos.</span></h2>
+    <div class="grid g3" style="margin-top:26px">
+      <div class="card reveal"><div style="font-size:.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em">Básico</div><div class="tag-price" style="font-size:1.7rem;margin:8px 0">$9,400–$15,000</div><p>Ya tiene cisterna y bomba; solo quiere filtrar. Kit Tláloc: separador, filtros y tren de filtración.</p></div>
+      <div class="card reveal" style="border-color:rgba(34,211,238,.45)"><div style="font-size:.78rem;color:var(--cyan);text-transform:uppercase;letter-spacing:.1em">Intermedio ★</div><div class="tag-price" style="font-size:1.7rem;margin:8px 0">$20,000–$55,000</div><p>Solución llave en mano con tanque 1,100 L, bomba e instalación incluida.</p></div>
+      <div class="card reveal"><div style="font-size:.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em">Integral</div><div class="tag-price" style="font-size:1.7rem;margin:8px 0">$55,000–$100,000</div><p>Construcción de cisterna 10,000–20,000 L desde cero + sistema completo.</p></div>
+    </div>
+    <p class="lead reveal" style="margin-top:22px;font-size:.95rem">Inversión inicial para arrancar el negocio: <b style="color:var(--cyan)">$150,000–$500,000 MXN</b> en inventario, herramientas y vehículo, según escala.</p>
+  </div>
+</section>
+
+<!-- 10 · ROI CLIENTE -->
+<section class="slide bg-grad-c">
+  <div class="grid-bg"></div><div class="glow cy"></div>
+  <div class="s-index">09 — Unit Economics</div>
+  <div class="slide-inner">
+    <div class="grid g2" style="align-items:center;gap:48px">
+      <div>
+        <div class="kicker reveal">El número que cierra la venta</div>
+        <h2 class="title reveal">Se paga solo en <span class="grad-text">menos de 2 años.</span></h2>
+        <p class="lead reveal" style="margin:14px 0 22px">Una familia que compra pipas gasta <b style="color:var(--cyan)">~$2,000 MXN/mes</b>. En 6 meses de estiaje son <b style="color:var(--cyan)">$12,000/año</b>. Con un Kit Capta la Lluvia de $20,400:</p>
+        <ul class="checks reveal">
+          <li><span class="ck">✓</span><span><b>Payback ≈ 1.7 años</b> ($20,400 ÷ $12,000).</span></li>
+          <li><span class="ck">✓</span><span>Después, el agua es <b>prácticamente gratis</b> — solo filtros cada 3–6 meses.</span></li>
+          <li><span class="ck">✓</span><span>Abastece a una familia de 4 entre <b>5 y 9 meses</b> al año.</span></li>
+        </ul>
+      </div>
+      <div class="reveal">
+        <div class="ask-box" style="border-color:rgba(34,211,238,.35);background:linear-gradient(160deg,rgba(34,211,238,.12),rgba(34,211,238,.02))">
+          <div style="font-size:.8rem;color:var(--muted);text-transform:uppercase;letter-spacing:.12em">Retorno de inversión</div>
+          <div class="ask-amount grad-text" style="margin-top:8px">1.7<span style="font-size:1.6rem"> años</span></div>
+          <div style="margin-top:18px;color:var(--muted);font-size:.95rem;line-height:1.6">Inversión: <b style="color:var(--ink)">$20,400 MXN</b><br>Ahorro anual: <b style="color:var(--ink)">$12,000 MXN</b><br>Promedio del mercado: <b style="color:var(--green)">~3 años</b></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 11 · MACRO -->
+<section class="slide bg-grad-b">
+  <div class="grid-bg"></div><div class="glow gr"></div>
+  <div class="s-index">10 — Tesis Macro</div>
+  <div class="slide-inner">
+    <div class="kicker reveal">Por qué importa más allá del negocio</div>
+    <h2 class="title reveal">Una solución de mercado a una <span class="grad-text">falla del Estado.</span></h2>
+    <p class="lead reveal" style="margin:14px 0 26px">El gobierno invierte <b style="color:var(--cyan)">0.1% del PIB</b> en agua cuando la CEPAL recomienda <b style="color:var(--cyan)">1.3%</b> — 13 veces menos. La inversión privada cierra ese hueco (crowding in).</p>
+    <div class="grid g3" style="gap:16px">
+      <div class="card reveal"><span class="ic">📉</span><h3>Frena la inflación</h3><p>Más oferta de agua descentralizada reduce presión sobre precios de alimentos y producción.</p></div>
+      <div class="card reveal"><span class="ic">🔄</span><h3>Crowding in privado</h3><p>Sustituye la inversión pública faltante ante la austeridad fiscal.</p></div>
+      <div class="card reveal"><span class="ic">⚡</span><h3>Productividad</h3><p>Empresas ahorran $0.5–2M MXN/año y ganan competitividad para el nearshoring.</p></div>
+      <div class="card reveal"><span class="ic">⚖️</span><h3>Reduce desigualdad</h3><p>Libera ingreso disponible en hogares vulnerables → multiplicador keynesiano.</p></div>
+      <div class="card reveal"><span class="ic">🌊</span><h3>Menos externalidades</h3><p>Retiene escurrimientos → menos inundaciones y menos gasto público reactivo.</p></div>
+      <div class="card reveal" style="background:linear-gradient(160deg,rgba(52,211,153,.12),transparent);border-color:rgba(52,211,153,.35)"><span class="ic">📊</span><h3>31% del PIB</h3><p style="color:var(--ink)">de México está expuesto a riesgos por estrés hídrico (WRI).</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 12 · THE ASK -->
+<section class="slide bg-gold">
+  <div class="grid-bg"></div><div class="glow" style="background:var(--gold);width:420px;height:420px;top:-120px;right:-80px;opacity:.22"></div>
+  <div class="s-index">11 — La Oferta</div>
+  <div class="slide-inner">
+    <div class="kicker reveal" style="color:var(--gold)">Lo que pedimos</div>
+    <h2 class="title reveal">Buscamos un socio para <span class="gold-text">capturar el mercado.</span></h2>
+    <div class="ask-grid" style="margin-top:30px">
+      <div class="ask-box reveal">
+        <div style="font-size:.8rem;color:var(--gold);text-transform:uppercase;letter-spacing:.14em">Inversión solicitada</div>
+        <div class="ask-amount gold-text">$2.5M<span style="font-size:1.8rem"> MXN</span></div>
+        <span class="equity reveal">a cambio de 18% equity</span>
+        <p style="color:var(--muted);margin-top:20px;font-size:.95rem;line-height:1.6">Para inventario a escala, flotilla de instalación, certificación SEDEMA/NOM-127, desarrollo de la plataforma IoT y fuerza de ventas B2B.</p>
+      </div>
+      <div class="reveal">
+        <ul class="checks">
+          <li><span class="ck" style="background:rgba(251,191,36,.16);color:var(--gold)">→</span><span><b>Uso de fondos:</b> 40% inventario y operación, 30% tecnología IoT + app, 30% ventas y marketing B2B.</span></li>
+          <li><span class="ck" style="background:rgba(251,191,36,.16);color:var(--gold)">→</span><span><b>Tracción objetivo año 1:</b> 200 instalaciones residenciales + 8 contratos comerciales.</span></li>
+          <li><span class="ck" style="background:rgba(251,191,36,.16);color:var(--gold)">→</span><span><b>Margen:</b> ingreso recurrente de mantenimiento sobre base instalada creciente.</span></li>
+        </ul>
+        <div class="chips reveal" style="margin-top:22px">
+          <span class="chip"><b>TAM</b> $30.7M USD '34</span>
+          <span class="chip"><b>Ley</b> a favor</span>
+          <span class="chip"><b>ESG</b> demand</span>
+          <span class="chip"><b>ROI cliente</b> &lt;2 años</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 13 · CIERRE -->
+<section class="slide bg-grad-a">
+  <div class="grid-bg"></div>
+  <div class="rain" id="rain2"></div>
+  <div class="glow cy"></div><div class="glow gr"></div>
+  <div class="slide-inner" style="text-align:center;max-width:900px">
+    <div class="logo-mark reveal" style="justify-content:center">
+      <svg class="drop" viewBox="0 0 48 48" fill="none"><path d="M24 3C24 3 8 21 8 32a16 16 0 0 0 32 0C40 21 24 3 24 3Z" fill="url(#g2)"/><defs><linearGradient id="g2" x1="8" y1="3" x2="40" y2="48"><stop stop-color="#22d3ee"/><stop offset="1" stop-color="#2dd4bf"/></linearGradient></defs></svg>
+      <span class="brand-name">Aqua<span class="grad-text">Viva</span></span>
+    </div>
+    <h2 class="reveal" style="font-size:clamp(1.6rem,3.6vw,2.8rem);line-height:1.2;margin:10px 0 22px;font-weight:700">"La captación de aguas pluviales es una <span class="grad-text">solución de mercado</span> a una falla estructural del Estado mexicano."</h2>
+    <p class="lead reveal" style="margin:0 auto 34px;font-size:1.05rem">Descentraliza la oferta de agua, reduce la inflación, compensa la desinversión pública y libera ingreso en los hogares más vulnerables. Rentable, escalable y necesaria.</p>
+    <div class="reveal" style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
+      <span class="chip" style="padding:13px 24px;font-size:1rem">💧 ¿Entramos al negocio del agua?</span>
+    </div>
+    <p class="reveal" style="margin-top:34px;font-size:.8rem;color:var(--muted)">Fuentes: IMARC Group · Banco Mundial 2025 · CIEP · CONAGUA · WRI · WEF · INEGI · SEDEMA CDMX</p>
+  </div>
+</section>
+
+</div>
+
+<!-- NAV -->
+<div class="nav">
+  <div class="dots" id="dots"></div>
+  <div class="nav-right">
+    <span class="counter"><b id="cur">1</b> / <span id="tot">13</span></span>
+    <button class="btn" id="prev">‹</button>
+    <button class="btn" id="next">›</button>
+  </div>
+</div>
+<div class="hint" id="hint">Usa <kbd>←</kbd> <kbd>→</kbd> o desliza para navegar</div>
+
+<script>
+const slides=[...document.querySelectorAll('.slide')];
+const total=slides.length;
+let i=0;
+const dotsBox=document.getElementById('dots');
+const prog=document.getElementById('progress');
+const cur=document.getElementById('cur');
+document.getElementById('tot').textContent=total;
+
+slides.forEach((_,n)=>{
+  const d=document.createElement('div');d.className='d'+(n===0?' on':'');
+  d.onclick=()=>go(n);dotsBox.appendChild(d);
+});
+const dots=[...dotsBox.children];
+
+function go(n){
+  if(n<0||n>=total||n===i)return;
+  slides[i].classList.remove('active');
+  slides[i].classList.add('prev');
+  const old=i;i=n;
+  setTimeout(()=>slides[old].classList.remove('prev'),600);
+  slides[i].classList.add('active');
+  dots.forEach((d,x)=>d.classList.toggle('on',x===i));
+  cur.textContent=i+1;
+  prog.style.width=((i+1)/total*100)+'%';
+  if(slides[i].querySelector('#bars'))setTimeout(animBars,250);
+  document.getElementById('hint').style.opacity = i===0?'.75':'0';
+}
+function animBars(){document.querySelectorAll('#bars .bar').forEach(b=>b.style.height=b.dataset.h)}
+
+document.getElementById('next').onclick=()=>go(i+1);
+document.getElementById('prev').onclick=()=>go(i-1);
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){e.preventDefault();go(i+1)}
+  if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();go(i-1)}
+  if(e.key==='Home')go(0);if(e.key==='End')go(total-1);
+});
+// touch — only navigate on clearly horizontal swipes so vertical scroll works
+let sx=0,sy=0;
+document.addEventListener('touchstart',e=>{sx=e.touches[0].clientX;sy=e.touches[0].clientY},{passive:true});
+document.addEventListener('touchend',e=>{
+  const dx=e.changedTouches[0].clientX-sx;
+  const dy=e.changedTouches[0].clientY-sy;
+  if(Math.abs(dx)>60 && Math.abs(dx)>Math.abs(dy)*1.6) go(dx<0?i+1:i-1);
+},{passive:true});
+
+prog.style.width=(1/total*100)+'%';
+
+// rain generator
+function rain(el,count){
+  if(!el)return;
+  for(let k=0;k<count;k++){
+    const r=document.createElement('i');
+    r.style.left=Math.random()*100+'%';
+    r.style.animationDuration=(.6+Math.random()*.9)+'s';
+    r.style.animationDelay=(Math.random()*2)+'s';
+    r.style.opacity=.2+Math.random()*.5;
+    r.style.height=(50+Math.random()*60)+'px';
+    el.appendChild(r);
+  }
+}
+rain(document.getElementById('rain'),60);
+rain(document.getElementById('rain2'),40);
+</script>
+</body>
+</html>
